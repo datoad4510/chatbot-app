@@ -1,15 +1,17 @@
 # pip install torch
 # !pip install transformers==3.0.0
 
+
 import sys
 import os
 
+sys.stdin.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding='utf-8')
+
 import torch
 from transformers import BertTokenizer, BertForSequenceClassification, AdamW, BertConfig, get_linear_schedule_with_warmup
-
 dirname = os.path.dirname(__file__)
 model_dir = os.path.join(dirname,"model_folder")
-
 # Load a trained model and vocabulary that you have fine-tuned
 model = BertForSequenceClassification.from_pretrained(model_dir)
 tokenizer = BertTokenizer.from_pretrained(model_dir)
@@ -19,9 +21,7 @@ model.eval()
 
 while True:
     print("Awaiting input sentence")
-    # sentence = sys.stdin.read(10)
     sentence = input()
-
 
     encoded_dict = tokenizer.encode_plus(
                             sentence,                      # წინადადება რომლის ენკოდინგიც გვინდა

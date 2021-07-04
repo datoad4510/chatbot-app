@@ -25,6 +25,7 @@ async function spawnProcess() {
         const pythonProcess = spawn("python", [
             path.join(__dirname, "model-test", "evaluate-model-loop.py"),
         ]);
+        pythonProcess.stderr.pipe(process.stdout);
 
         // wait for loop to start
         pythonProcess.stdout.once("data", (chunk) => {
@@ -46,7 +47,9 @@ app.post("/evaluate_neural_network", async (req, res) => {
     const sentence = req.body.sentence;
 
     // pass sentence to python stdin
-    pythonProcess.stdin.write(Buffer.from(`${sentence}\n`));
+    const test = Buffer.from(`${sentence}\n`, "utf-8");
+    console.log(test);
+    pythonProcess.stdin.write(test);
 
     // single time event listener, send back data on out
     pythonProcess.stdout.once("data", (data) => {
