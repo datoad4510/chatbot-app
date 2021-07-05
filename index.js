@@ -47,9 +47,7 @@ app.post("/evaluate_neural_network", async (req, res) => {
     const sentence = req.body.sentence;
 
     // pass sentence to python stdin
-    const test = Buffer.from(`${sentence}\n`, "utf-8");
-    console.log(test);
-    pythonProcess.stdin.write(test);
+    pythonProcess.stdin.write(Buffer.from(`${sentence}\n`, "utf-8"));
 
     // single time event listener, send back data on out
     pythonProcess.stdout.once("data", (data) => {
